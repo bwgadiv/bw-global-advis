@@ -1009,23 +1009,50 @@ const MainCanvas: React.FC<MainCanvasProps> = ({
     const LivePreview = () => {
         // Calculate dynamic readiness score based on filled fields
         const calculateReadiness = () => {
-            let score = 5; // Base
-            if (params.organizationName) score += 10;
-            if (params.organizationType) score += 5;
-            if (params.country) score += 15;
-            if (params.industry.length > 0) score += 10;
-            if (params.problemStatement && params.problemStatement.length > 10) score += 15;
-            if (params.strategicIntent.length > 0) score += 10;
-            if (params.revenueBand) score += 5;
-            if (params.riskTolerance) score += 5;
-            if (params.selectedAgents.length > 0) score += 5;
+            // Strict Gate: No score until Name AND Country are present
+            if (!params.organizationName || !params.country) return 0;
+
+            let score = 0; 
             
-            // Cap at 99% - Human intuition requirement
+            // Base score for passing the gate
+            score += 10; 
+
+            if (params.organizationType) score += 5;
+            if (params.industry.length > 0) score += 10;
+            if (params.problemStatement && params.problemStatement.length > 10) score += 20;
+            if (params.strategicIntent.length > 0) score += 15;
+            if (params.revenueBand) score += 10;
+            if (params.riskTolerance) score += 10;
+            if (params.selectedAgents.length > 0) score += 10;
+            if (params.selectedModules.length > 0) score += 9;
+            
             return Math.min(99, score);
         };
 
         const readiness = calculateReadiness();
-        const reportTitle = params.reportName || "New Strategic Mission";
+        
+        // Dynamic Header Logic: Title, Ref, Status evolve with input
+        let statusText = "Awaiting Initialization";
+        let refText = "UNREGISTERED";
+        let reportTitle = params.reportName || "Untitled Mission";
+
+        if (readiness === 0) {
+            statusText = "Awaiting Core Inputs";
+            refText = "PENDING";
+        } else if (readiness < 20) {
+            statusText = "Ingesting Entity Data";
+            if(params.organizationName) reportTitle = `${params.organizationName} (Draft)`;
+        } else if (readiness < 40) {
+            statusText = "Mapping Strategic Intent";
+            refText = "GENERATING HASH...";
+            if(params.country) reportTitle = `Mission: ${params.country} Entry`;
+        } else if (readiness < 70) {
+            statusText = "Calibrating Risk Models";
+            refText = params.id || "PENDING";
+        } else {
+            statusText = "Ready for Computation";
+            refText = params.id || "READY";
+        }
         
         // EMPTY STATE CHECK: If main identifiers are missing, show Standby UI
         if (!params.organizationName && !params.country) {
@@ -1053,20 +1080,22 @@ const MainCanvas: React.FC<MainCanvasProps> = ({
             <div className="h-full flex flex-col bg-stone-50 p-8 overflow-y-auto font-sans">
                 <div className="bg-white rounded-xl shadow-xl border border-stone-200 p-8 min-h-full flex flex-col animate-in fade-in zoom-in-95 duration-500">
                     
-                    {/* Header */}
+                    {/* Header - Now Dynamic */}
                     <div className="border-b-2 border-stone-900 pb-6 mb-8 flex justify-between items-start">
                         <div>
                             <div className="flex items-center gap-2 mb-2">
-                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                                <div className={`w-2 h-2 rounded-full ${readiness > 60 ? 'bg-green-500' : 'bg-amber-500'} animate-pulse`}></div>
                                 <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Confidential Briefing</span>
                             </div>
-                            <h2 className="text-3xl font-serif font-bold text-stone-900 leading-tight">{reportTitle}</h2>
-                            <p className="text-stone-500 mt-2 text-sm font-mono uppercase tracking-wide">
-                                Ref: {params.id || 'INIT'} • Status: Calibration
+                            <h2 className="text-3xl font-serif font-bold text-stone-900 leading-tight transition-all duration-300">{reportTitle}</h2>
+                            <p className="text-stone-500 mt-2 text-sm font-mono uppercase tracking-wide flex items-center gap-2">
+                                <span>Ref: <span className="text-stone-800 font-bold">{refText}</span></span>
+                                <span className="text-stone-300">•</span>
+                                <span>Status: <span className="text-blue-600 font-bold">{statusText}</span></span>
                             </p>
                         </div>
                         <div className="text-right">
-                            <div className="text-4xl font-black text-stone-200">{readiness}%</div>
+                            <div className="text-4xl font-black text-stone-200 transition-all duration-500">{readiness}%</div>
                             <div className="text-[9px] font-bold text-stone-400 uppercase">Mission Readiness</div>
                         </div>
                     </div>
