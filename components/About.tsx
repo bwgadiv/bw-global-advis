@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Cpu, ShieldCheck } from 'lucide-react';
 
@@ -20,26 +21,29 @@ export const About: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-bw-navy text-white text-xs font-bold uppercase tracking-widest rounded-sm">
                 <ShieldCheck size={14} /> Who We Are
             </div>
-            <h4 className="text-2xl font-bold text-bw-navy">An Intelligence Unit, Not a Consultancy.</h4>
+            <h4 className="text-2xl font-bold text-bw-navy">From Discovery to Systemization.</h4>
             <p className="text-gray-600 text-lg leading-relaxed">
-              BW Global Advisory was built to close the information gap that keeps 90% of the world's markets under-capitalized. We don't provide subjective advice. We provide deterministic intelligence based on mathematical and historical analysis.
+              My name is <strong>Brayden Walls</strong>. During my time establishing operations in Pagadian City, Mindanao, I realized a critical truth: if a high-potential city like this faces such a massive information gap, then thousands of other regional places must be facing the exact same barrier.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              We operate where standard data providers go blind: the regional cities, the developing zones, and the non-standard jurisdictions where human relationships—not just spreadsheets—dictate economic outcomes.
+              I developed this cost-effective system to solve that universal problem. It is designed to help international companies and investors better understand these overlooked places, bridging the gap between government and business to create opportunities that improve efficiency and lower operating costs.
+            </p>
+            <p className="text-gray-600 leading-relaxed font-medium">
+              Ultimately, this system exists to give regional cities a fair chance to compete for capital and prove their actual economic worth.
             </p>
           </div>
 
-          {/* What This Is */}
+          {/* Operational Philosophy (Replaced the moved text) */}
           <div className="space-y-6">
              <div className="inline-flex items-center gap-2 px-3 py-1 bg-bw-gold text-bw-navy text-xs font-bold uppercase tracking-widest rounded-sm">
-                <Cpu size={14} /> What This Is
+                <Cpu size={14} /> The Operational Philosophy
             </div>
-            <h4 className="text-2xl font-bold text-bw-navy">The BWGA Economic Intelligence OS.</h4>
+            <h4 className="text-2xl font-bold text-bw-navy">Deterministic Intelligence.</h4>
             <p className="text-gray-600 text-lg leading-relaxed">
-              This is the <strong>BWGA Intelligence Operating System (v4.2)</strong>. It is a deterministic engine that ingests your strategic intent and stress-tests it against a century of economic precedent.
+              We operate where standard data providers go blind: the regional cities, the developing zones, and the non-standard jurisdictions where human relationships—not just spreadsheets—dictate economic outcomes.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              It doesn't just search for partners; it calculates the mathematical probability of a partnership's survival (SPI™) and the true time-to-value of an investment (IVAS™). It turns market entry from a gamble into a calculated equation.
+              This is not a consultancy that sells subjective advice. This is an <strong>Intelligence Operating System</strong>. It ingests your strategic intent and stress-tests it against a century of economic precedent, replacing "expert opinion" with calculated probability.
             </p>
           </div>
 
